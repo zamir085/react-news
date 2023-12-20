@@ -6,6 +6,10 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Post from './pages/Post'
 import Register from './pages/Register'
+import NotFound from './components/NotFound'
+import PublisherDetail from './components/PublisherDetail'
+import Publishers from './components/Publishers'
+import UserDetail from './components/UserDetail'
 import './App.css'
 import {
   BrowserRouter as Router,
@@ -23,8 +27,12 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/news/:id" element={<NewsDetail />} />
+        <Route path="/user/:id" element={<UserDetail />} />
+        <Route path="/publisher/:id" element={<PublisherDetail />} />
         <Route path="/newslist" element={<NewsList />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/publishers" element={<Publishers />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>
