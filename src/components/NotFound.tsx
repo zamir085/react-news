@@ -1,8 +1,15 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-const NotFound = () => {
+const NotFound: React.FC = () => {
   return (
-    <div>NotFound</div>
-  )
-}
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+      <Typography variant="h3" component="div">
+        404 - Not Found
+      </Typography>
+    </Box>
+  );
+};
 
-export default NotFound
+export default NotFound;
