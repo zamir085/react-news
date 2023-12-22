@@ -11,24 +11,30 @@ enum UserType {
 const Register = () => {
   const [selectedType, setSelectedType] = useState<UserType | ''>('');
 
-  const handleTypeChange = (event: SelectChangeEvent<UserType>) => {
-    setSelectedType(event.target.value);
+  const handleTypeChange = (event: SelectChangeEvent<{ value: UserType }>) => {
+    setSelectedType(event.target.value as UserType);
   };
 
+
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection:'column', height: '60vh' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '80vh' }}>
       <FormControl style={{ minWidth: 120 }}>
         <InputLabel id="user-type-label">Which</InputLabel>
         <Select
           labelId="user-type-label"
           id="user-type"
           value={selectedType}
-          label="Select Type"
+          label="Select Type" 
           onChange={handleTypeChange}
+          inputProps={{
+            value: selectedType,
+          }}
         >
-          <MenuItem value={UserType.USER}>User</MenuItem>
-          <MenuItem value={UserType.PUBLISHER}>Publisher</MenuItem>
+          <MenuItem value={'user'}>User</MenuItem>
+          <MenuItem value={'publisher'}>Publisher</MenuItem>
         </Select>
+
       </FormControl>
       {selectedType === UserType.USER && <UserRegister />}
       {selectedType === UserType.PUBLISHER && <PublisherRegister />}

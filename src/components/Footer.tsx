@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import emailjs from '@emailjs/browser';
 import Logo from '../../public/ico.png';
 import { Link } from 'react-router-dom';
+import { FormikHelpers } from 'formik';
 
 const { Footer: AntFooter } = Layout;
 
@@ -28,9 +29,10 @@ const Footer: React.FC = () => {
   interface FormType {
     email: string;
     message: string;
+    [key: string]: string; 
   }
 
-  const onSubmit = (values: FormType, { resetForm }: any) => {
+  const onSubmit = (values: FormType, { resetForm }: FormikHelpers<FormType>) => {
     setIsSubmitting(true);
     emailjs
       .send(YOUR_SERVICE_ID, YOUR_TEMPLATE_ID, values, YOUR_USER_ID)

@@ -2,6 +2,7 @@ import { TextField, Button, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
+import { FormikHelpers } from 'formik';
 
 interface PublisherRegisterProps {}
 
@@ -31,16 +32,16 @@ const PublisherRegister: React.FC<PublisherRegisterProps> = () => {
   };
 
   const validationSchema = Yup.object({
-    username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required'),
-    email: Yup.string().email('Invalid email format').required('Email is required'),
-    backgroundImg: Yup.string().required('Background image is required'),
-    profileImg: Yup.string().required('Profile image is required'),
-    name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Description is required'),
+    username: Yup.string().required(),
+    password: Yup.string().required('Password is required').min(8),
+    email: Yup.string().email().required(),
+    backgroundImg: Yup.string().url().required(),
+    profileImg: Yup.string().url().required(),
+    name: Yup.string().required(),
+    description: Yup.string().required(),
   });
 
-  const handleSubmit = (values: PublisherValues, { resetForm }: any) => {
+  const handleSubmit = (values: PublisherValues, { resetForm }: FormikHelpers<PublisherValues>) => {
     const id = uuidv4(); 
     const dataWithId = { ...values, id, joinedDate: new Date().toISOString().split('T')[0] };
     console.log(dataWithId);
@@ -55,22 +56,32 @@ const PublisherRegister: React.FC<PublisherRegisterProps> = () => {
     >
       {({ errors, touched, isSubmitting, isValid }) => (
         <Form>
-          <Box>
-            <Field name="username" as={TextField} label="Username" error={errors.username && touched.username} helperText={errors.username} />
-            <Field name="password" as={TextField} type="password" label="Password" error={errors.password && touched.password} helperText={errors.password} />
-            <Field name="email" as={TextField} type="email" label="Email" error={errors.email && touched.email} helperText={errors.email} />
-            <Field name="backgroundImg" as={TextField} label="Background Image" error={errors.backgroundImg && touched.backgroundImg} helperText={errors.backgroundImg} />
-            <Field name="profileImg" as={TextField} label="Profile Image" error={errors.profileImg && touched.profileImg} helperText={errors.profileImg} />
-            <Field name="name" as={TextField} label="Name" error={errors.name && touched.name} helperText={errors.name} />
-            <Field name="description" as={TextField} multiline rows={4} label="Description" error={errors.description && touched.description} helperText={errors.description} />
-            <Field name="joinedDate" type="hidden" />
-
-            <Button type="submit" disabled={!isValid || isSubmitting}>Submit</Button>
+          <Box display="flex" flexDirection="column">
+            <Box style={{ margin: '20px 0' }} display="flex" gap={2} flexDirection={{ xs: 'column', md: 'row' }}>
+              <Field name="username" as={TextField} label="Username" error={!!(errors.username && touched.username)} helperText={touched.username ? errors.username : ''} />
+              <Field name="email" as={TextField} type="email" label="Email" error={!!(errors.email && touched.email)} helperText={touched.email ? errors.email : ''} />
+            </Box>
+            <Box style={{ margin: '20px 0' }} display="flex" gap={2} flexDirection={{ xs: 'column', md: 'row' }}>
+              <Field name="password" as={TextField} type="password" label="Password" error={!!(errors.password && touched.password)} helperText={touched.password ? errors.password : ''} />
+              <Field name="name" as={TextField} label="Name" error={!!(errors.name && touched.name)} helperText={touched.name ? errors.name : ''} />
+            </Box>
+            <Box style={{ margin: '20px 0' }} display="flex" gap={2} flexDirection={{ xs: 'column', md: 'row' }}>
+              <Field name="backgroundImg" as={TextField} label="Background Image" error={!!(errors.backgroundImg && touched.backgroundImg)} helperText={touched.backgroundImg ? errors.backgroundImg : ''} />
+              <Field name="profileImg" as={TextField} label="Profile Image" error={!!(errors.profileImg && touched.profileImg)} helperText={touched.profileImg ? errors.profileImg : ''} />
+            </Box>
+            <Box style={{ margin: '20px 0' }} display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center">
+              <Field style={{ width: '250px' }} name="description" as={TextField} multiline rows={2} label="Description" error={!!(errors.description && touched.description)} helperText={touched.description ? errors.description : ''} />
+              <Field name="joinedDate" type="hidden" />
+            </Box>
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Button type="submit" variant="contained" disabled={!isValid || isSubmitting}>Submit</Button>
+            </Box>
           </Box>
         </Form>
       )}
     </Formik>
   );
+  
 };
 
 export default PublisherRegister;
