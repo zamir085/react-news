@@ -1,13 +1,13 @@
 import { TextField, Button, Box, Checkbox, FormControlLabel } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { v4 as uuidv4 } from 'uuid';
 import { FormikHelpers } from 'formik';
+import { getAllUsers, postUser } from '../services/usersApi';
+import { useNavigate } from 'react-router-dom';
 
 interface UserRegisterProps {}
 
 interface UserValues {
-  id: string;
   username: string;
   fullName: string;
   profileImg: string;
@@ -17,8 +17,10 @@ interface UserValues {
 }
 
 const UserRegister: React.FC<UserRegisterProps> = () => {
+
+  const navigate = useNavigate()
+
   const initialValues: UserValues = {
-    id: '',
     username: '',
     fullName: '',
     profileImg: '',
@@ -36,12 +38,23 @@ const UserRegister: React.FC<UserRegisterProps> = () => {
     isAdmin: Yup.boolean(),
   });
 
-  const handleSubmit = (values: UserValues, { resetForm }: FormikHelpers<UserValues>) => {
-    const id = uuidv4(); 
-    const dataWithId = { ...values, id };
-    console.log(dataWithId);
-    resetForm(); 
+  const handleSubmit = async (values: UserValues, { resetForm }: FormikHelpers<UserValues>) => {
+    try {
+      const users = await getAllUsers();
+      const existingUser = users.find((user:UserValues) => user.username === values.username);
+  
+      if (existingUser) {
+        alert('This username already exists!');
+      } else {
+        await postUser(values); 
+        resetForm();
+        navigate('/login')
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+  
 
   return (
     <Formik

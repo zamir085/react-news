@@ -1,13 +1,13 @@
 import { TextField, Button, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { v4 as uuidv4 } from 'uuid';
 import { FormikHelpers } from 'formik';
+import { postPublisher ,getAllPublishers} from '../services/publishersApi';
+import { useNavigate } from 'react-router-dom';
 
 interface PublisherRegisterProps {}
 
 interface PublisherValues {
-  id: string;
   username: string;
   password: string;
   email: string;
@@ -19,8 +19,10 @@ interface PublisherValues {
 }
 
 const PublisherRegister: React.FC<PublisherRegisterProps> = () => {
+
+  const navigate = useNavigate()
+
   const initialValues: PublisherValues = {
-    id: '',
     username: '',
     password: '',
     email: '',
@@ -41,12 +43,23 @@ const PublisherRegister: React.FC<PublisherRegisterProps> = () => {
     description: Yup.string().required(),
   });
 
-  const handleSubmit = (values: PublisherValues, { resetForm }: FormikHelpers<PublisherValues>) => {
-    const id = uuidv4(); 
-    const dataWithId = { ...values, id, joinedDate: new Date().toISOString().split('T')[0] };
-    console.log(dataWithId);
-    resetForm(); 
+  const handleSubmit = async (values: PublisherValues, { resetForm }: FormikHelpers<PublisherValues>) => {
+    try {
+      const publishers = await getAllPublishers(); 
+      const existingPublisher = publishers.find((publisher: PublisherValues) => publisher.username === values.username);
+  
+      if (existingPublisher) {
+        alert('This username already exists!');
+      } else {
+        await postPublisher(values); 
+        resetForm();
+        navigate('/login')
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+  
 
   return (
     <Formik

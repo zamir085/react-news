@@ -18,7 +18,8 @@ const Register = () => {
 
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '80vh' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
+       <h3 style={{margin:'20px 0'}}>Register Page</h3>
       <FormControl style={{ minWidth: 120 }}>
         <InputLabel id="user-type-label">Which</InputLabel>
         <Select
