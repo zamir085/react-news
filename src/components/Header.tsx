@@ -61,6 +61,9 @@ const Navbar: React.FC = () => {
                 <Menu.Item key="newslist">
                   <Link to="/newslist" style={{ color: '#FFF8DC' }}>NewsList</Link>
                 </Menu.Item>
+                <Menu.Item key="user">
+                  <Link to="/user" style={{ color: '#FFF8DC' }}>User</Link>
+                </Menu.Item>
               </>
             )}
             {publisher && (
