@@ -6,6 +6,22 @@ import { setUserType } from '../store/slices/userTypeSlice';
 import { TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { FormikHelpers } from 'formik';
+
+interface FormValues {
+  username: string;
+  password: string;
+}
+interface User{
+  id:string
+  username: string,
+  fullName: string,
+  profileImg: string,
+  email: string,
+  password: string,
+  isAdmin: boolean,
+}
+
 const PublisherLogin = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate()
@@ -21,10 +37,10 @@ const PublisherLogin = () => {
     password: Yup.string().required(),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) =>{
     try {
       const allUsers = await getAllPublishers();
-      const foundUser = allUsers.find(user => user.username === values.username && user.password === values.password);
+      const foundUser = allUsers.find((user:User) => user.username === values.username && user.password === values.password);
   
       if (foundUser) {
         dispatch(setUserType(foundUser)); 

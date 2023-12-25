@@ -6,6 +6,24 @@ import { setUserType } from '../store/slices/userTypeSlice';
 import { TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { FormikHelpers } from 'formik';
+
+interface FormValues {
+  username: string;
+  password: string;
+}
+
+interface Publisher{
+  id:string
+  username: string,
+  password: string,
+  email: string,
+  backgroundImg: string,
+  profileImg: string,
+  name: string,
+  description: string,
+  joinedDate: Date,
+}
 
 const UserLogin = () => {
   const [error, setError] = useState('');
@@ -22,14 +40,14 @@ const UserLogin = () => {
     password: Yup.string().required(),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>)  => {
     try {
       const allUsers = await getAllUsers();
-      const foundUser = allUsers.find(user => user.username === values.username && user.password === values.password);
+      const foundUser = allUsers.find((user:Publisher) => user.username === values.username && user.password === values.password);
   
       if (foundUser) {
         dispatch(setUserType(foundUser)); 
-        localStorage.setItem('user', JSON.stringify({ id: foundUser._id, username: foundUser.username })); // Locale Storage'e ekle
+        localStorage.setItem('user', JSON.stringify({ id: foundUser._id, username: foundUser.username }));
         navigate('/');
       } else {
         setError('Invalid username or password');

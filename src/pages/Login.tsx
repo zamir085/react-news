@@ -15,7 +15,7 @@ const Login = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '90vh' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '73vh' }}>
       <h3 style={{margin:'20px 0'}}>Login Page</h3>
       <FormControl style={{ minWidth: 120 }}>
         <InputLabel id="user-type-label">Which</InputLabel>
