@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^40.2.0",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@emailjs/browser": "^3.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -19,6 +21,7 @@
     "@reduxjs/toolkit": "^2.0.1",
     "antd": "^5.12.4",
     "axios": "^1.6.2",
+    "ckeditor": "^4.12.1",
     "emailjs": "^4.0.3",
     "formik": "^2.4.5",
     "react": "^18.2.0",
