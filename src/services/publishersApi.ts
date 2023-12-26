@@ -24,7 +24,7 @@ export const getAllPublishers = async () => {
 
 export const getPublisher = async (userId: string) => {
   try {
-    const response = await axios.get(`${API_URL}${userId}`);
+    const response = await axios.get(`${API_URL}/${userId}`);
     return response.data;
   } catch (error) {
     throw new Error('Istifadəçi tapilmadi.');
@@ -42,7 +42,7 @@ export const postPublisher = async (userData: string) => {
 
 export const updatePublisher = async (userId: string, updatedUserData: userType) => {
   try {
-    const response = await axios.patch(`${API_URL}${userId}`, updatedUserData);
+    const response = await axios.patch(`${API_URL}/${userId}`, updatedUserData);
     return response.data;
   } catch (error) {
     throw new Error('Istifadeci yenilənmədi.');
@@ -51,7 +51,7 @@ export const updatePublisher = async (userId: string, updatedUserData: userType)
 
 export const deletePublisher = async (userId: string) => {
   try {
-    const response = await axios.delete(`${API_URL}${userId}`);
+    const response = await axios.delete(`${API_URL}/${userId}`);
     return response.data;
   } catch (error) {
     throw new Error('Istifadeci silinmedi.');

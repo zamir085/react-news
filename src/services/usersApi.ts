@@ -22,7 +22,7 @@ export const getAllUsers = async () => {
 
 export const getUser = async (userId: string) => {
   try {
-    const response = await axios.get(`${API_URL}${userId}`);
+    const response = await axios.get(`${API_URL}/${userId}`);
     return response.data;
   } catch (error) {
     throw new Error('Istifadəçi tapilmadi.');
@@ -40,7 +40,7 @@ export const postUser = async (userData: string) => {
 
 export const updateUser = async (userId: string, updatedUserData: userType) => {
   try {
-    const response = await axios.patch(`${API_URL}${userId}`, updatedUserData);
+    const response = await axios.patch(`${API_URL}/${userId}`, updatedUserData);
     return response.data;
   } catch (error) {
     throw new Error('Istifadeci yenilənmədi.');
@@ -49,7 +49,7 @@ export const updateUser = async (userId: string, updatedUserData: userType) => {
 
 export const deleteUser = async (userId: string) => {
   try {
-    const response = await axios.delete(`${API_URL}${userId}`);
+    const response = await axios.delete(`${API_URL}/${userId}`);
     return response.data;
   } catch (error) {
     throw new Error('Istifadeci silinmedi.');

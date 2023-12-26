@@ -1,24 +1,12 @@
 export interface IArticle {
-    id: number;
+    summary?: string;
+    _id: string;
     title: string;
-    url: string;
+    linkURL: string;
     thumbnailImg: string;
-    newsSite: string;
-    summary: string;
+    newsBody: string;
+    author:string
     publishedAt: string;
     updatedAt: string;
-    featured: boolean;
-    launches: [
-      {
-        id: string;
-        provider: string;
-      }
-    ];
-    events: [
-      {
-        id: string;
-        provider: string;
-      }
-    ];
   }
   

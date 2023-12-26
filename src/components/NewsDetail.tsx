@@ -22,9 +22,9 @@ type NewsDetailParams = {
 };
 
 const NewsDetail: React.FC = () => {
-  const { error: newsError, news, loading: newsLoading } = useNews();
+  const { error: newsError,  loading: newsLoading } = useNews();
   const { id } = useParams<NewsDetailParams>();
-  const index = id;
+  const index = id || '';
   const [articleData, setArticleData] = useState<ArticleData | null>(null);
   const navigate = useNavigate();
 
@@ -34,6 +34,7 @@ const NewsDetail: React.FC = () => {
         const article = await getNews(index);
         setArticleData(article);
       } catch (error) {
+        console.log(error)
       }
     };
 
@@ -44,7 +45,7 @@ const NewsDetail: React.FC = () => {
   if (newsError) return <Error error={newsError} />;
 
   return (
-    <div style={{ marginBottom: 200 }}>
+    <div style={{ marginBottom: 200, position: 'relative' }}>
       <Box
         component="img"
         sx={{
@@ -58,8 +59,6 @@ const NewsDetail: React.FC = () => {
       <Box
         sx={{
           margin: { md: '4rem', xs: '1rem' },
-          position: 'absolute',
-          top: { xs: 130, sm: 200, md: 250 },
           backgroundColor: 'white',
           p: { md: '2rem 4rem', xs: '1rem 1.5rem' },
           width: { sm: '90%', md: '80%' },

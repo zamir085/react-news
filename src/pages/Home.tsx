@@ -2,7 +2,7 @@
 import useNews from "../hooks/news";
 import Loading from "../components/Home/Loading";
 import Error from "../components/Home/Error";
-import { Article } from "../components/Home/Article";
+import  {Article}  from "../components/Home/Article";
 import {  useState } from "react";
 import { IArticle } from "../models";
 import {
@@ -47,7 +47,7 @@ export const Home: React.FC = () => {
         news?.forEach((item) => {
           if (
             element.includes(" ") === false &&
-            item.summary.toLowerCase().includes(element) &&
+            item.newsBody.toLowerCase().includes(element) &&
             newArray.indexOf(item) === -1
           ) {
             newArray.push(item);
@@ -101,11 +101,11 @@ export const Home: React.FC = () => {
         <Grid container spacing={3} my={1}>
           {query === ''
             ? news?.map((item) => (
-                <Article key={item.id} data={item} index={item.id} />
+                <Article key={item._id} data={item} index={item._id} />
               ))
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            : newData.map((item, index) => (
-                <Article key={item.id} data={item} index={item.id} />
+            : newData.map((item) => (
+                <Article key={item._id} data={item} index={item._id} />
               ))}
         </Grid>
       </Container>
