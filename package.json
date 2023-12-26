@@ -19,6 +19,7 @@
     "@mui/material": "^5.15.1",
     "@mui/styled-engine-sc": "^6.0.0-alpha.9",
     "@reduxjs/toolkit": "^2.0.1",
+    "@tinymce/tinymce-react": "^4.3.2",
     "antd": "^5.12.4",
     "axios": "^1.6.2",
     "ckeditor": "^4.12.1",

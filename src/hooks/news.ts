@@ -16,7 +16,7 @@ const useNews = () => {
       setError("");
       setLoading(true);
       const response = await axios.get<IArticle[]>(
-        "https://api.spaceflightnewsapi.net/v3/articles?_limit=20"
+        "http://localhost:3000/api/news"
       );
       setNews(response.data);
 
