@@ -29,6 +29,15 @@ export const getNews = async (userId: string) => {
   }
 };
 
+export const getNewsByPublisher = async (userId: string) => {
+  try {
+    const response = await axios.get(`${API_URL}/publisher/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Istifadəçi tapilmadi.");
+  }
+};
+
 export const postNews = async (userData: string) => {
   try {
     const response = await axios.post(`${API_URL}`, userData);
