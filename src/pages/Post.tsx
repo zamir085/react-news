@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import { Editor as TinyMCEEditor } from 'tinymce';
 import { TextField, Button, Typography, Alert } from '@mui/material';
 import { postNews } from '../services/newsApi';
 import { FormikHelpers } from 'formik';
@@ -37,7 +38,7 @@ const Post = () => {
   });
 
   const handleSubmit = async (
-    values: PostNews,
+    values: PostNews ,
     { setSubmitting, resetForm }: FormikHelpers<PostNews>
   ) => {
     try {
@@ -52,7 +53,7 @@ const Post = () => {
     }
   };
 
-  const editorRef = useRef<any>(null);
+  const editorRef =useRef<TinyMCEEditor | null>(null);
 
   return (
     <div className="App" style={{margin:"30px"}}>
@@ -97,9 +98,7 @@ const Post = () => {
               />
             </div>
             <div style={{ marginBottom: '1rem' }}>
-              <div style={{ display: 'none' }}>
-                <Field type="hidden" name="createAt" />
-              </div>
+              
               <Editor
                 onInit={(editor) => (editorRef.current = editor)}
                 initialValue=""

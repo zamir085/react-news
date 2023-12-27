@@ -2,8 +2,6 @@ import {
   TextField,
   Button,
   Box,
-  Checkbox,
-  FormControlLabel,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -75,7 +73,7 @@ const UserRegister: React.FC<UserRegisterProps> = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ errors, touched, isSubmitting, isValid, values, setFieldValue }) => (
+      {({ errors, touched, isSubmitting, isValid }) => (
         <Form>
           <Box
             style={{ margin: "20px" }}
@@ -129,20 +127,6 @@ const UserRegister: React.FC<UserRegisterProps> = () => {
               helperText={touched.profileImg ? errors.profileImg : ""}
               sx={{ marginBottom: "8px", width: "100%" }}
             />
-            <Field name="isAdmin" as={Checkbox}>
-              {({ field }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      {...field}
-                      checked={values.isAdmin}
-                      onChange={() => setFieldValue("isAdmin", !values.isAdmin)}
-                    />
-                  }
-                  label="Is Admin"
-                />
-              )}
-            </Field>
             <Box display="flex" alignItems="center" justifyContent="center">
               <Button
                 type="submit"

@@ -8,5 +8,7 @@ export interface IArticle {
     author:string
     publishedAt: string;
     updatedAt: string;
+    __v:number;
+    createdAt:string;
   }
   
