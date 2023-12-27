@@ -83,11 +83,11 @@ const NewsDetail: React.FC = () => {
         </Typography>
 
         <Button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('..')}
           startIcon={<ArrowBackIcon />}
           sx={{ marginTop: '3rem' }}
         >
-          Back to homepage
+          Back back
         </Button>
       </Box>
     </div>

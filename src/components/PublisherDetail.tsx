@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getPublisher } from '../services/publishersApi';
 import { getNewsByPublisher } from '../services/newsApi';
-import { Box, Typography, Avatar } from '@mui/material';
+import { Avatar, Typography, Row, Col, Card } from 'antd';
+import { ClockCircleOutlined } from '@ant-design/icons';
+
+const { Meta } = Card;
 
 type PublisherDetailParams = {
   id: string;
@@ -50,31 +53,44 @@ const PublisherDetail: React.FC = () => {
   }, [index]);
 
   return (
-    <div>
-      {publisherData && (
-        <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-          <Avatar alt={publisherData.username} src={publisherData.profileImg} />
-          <Typography variant="h6">{publisherData.username}</Typography>
-          <Typography variant="subtitle1">Name: {publisherData.name}</Typography>
-          <Typography variant="subtitle1">Email: {publisherData.email}</Typography>
-          <Typography variant="subtitle1">Joined Date: {publisherData.joinedDate}</Typography>
-          <Typography variant="body1">Description: {publisherData.description}</Typography>
-        </Box>
-      )}
+    <div >
+    {publisherData && (
+  <Row gutter={[16, 16]} style={{ margin: '40px 0 0 0' }} justify="center" align="middle">
+    <Col xs={24} sm={12} md={12} style={{ textAlign: 'center' }}>
+      <Avatar size={300} src={publisherData.profileImg} />
+      <div>
+        <Typography.Title level={4}>{publisherData.username}</Typography.Title>
+        <Typography.Paragraph>Name: {publisherData.name}</Typography.Paragraph>
+        <Typography.Paragraph>Email: {publisherData.email}</Typography.Paragraph>
+        <Typography.Paragraph>
+          Joined Date: {publisherData.joinedDate}
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          Description: {publisherData.description}
+        </Typography.Paragraph>
+      </div>
+    </Col>
+  </Row>
+)}
 
-      <Box>
+
+
+      <Row gutter={[16, 16]} style={{padding:'40px 25px'}}>
         {publisherNews.map((news) => (
-          <div key={news._id}>
-            <Typography variant="h6">{news.title}</Typography>
-            <Typography variant="subtitle2">{news.createdAt}</Typography>
-            <img src={news.thumbnailImg} alt={news.title} style={{ width: '100px', height: '100px' }} />
-            <Typography variant="body2" dangerouslySetInnerHTML={{ __html: news?.newsBody || '' }}/>
-            <a href={news.linkURL} target="_blank" rel="noopener noreferrer">
-              Read more
-            </a>
-          </div>
+          <Col xs={24} sm={12} md={8} key={news._id}>
+            <Card hoverable cover={<img alt={news.title} src={news.thumbnailImg} />}>
+              <Meta title={news.title} />
+              <div dangerouslySetInnerHTML={{ __html: news?.newsBody || '' }} />
+              <div style={{ marginTop: '12px' }}>
+                <ClockCircleOutlined />
+                <span style={{ marginLeft: '8px' }}>{news.createdAt}</span>
+              </div>
+              <Link to={`/news/${news._id}`}>Read More</Link>
+            </Card>
+          </Col>
         ))}
-      </Box>
+      </Row>
+
     </div>
   );
 };
