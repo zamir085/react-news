@@ -16,6 +16,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import PublisherPage from './components/PublisherPage'
 
 function App() {
 
@@ -27,7 +28,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/news/:id" element={<NewsDetail />} />
-        <Route path="/user/:id" element={<UserDetail />} />
+        <Route path="/user" element={<UserDetail />} />
+        <Route path="/publisher-page" element={<PublisherPage />} />
         <Route path="/publisher/:id" element={<PublisherDetail />} />
         <Route path="/newslist" element={<NewsList />} />
         <Route path="/post" element={<Post />} />

@@ -1,5 +1,5 @@
 import { Layout, Menu, Drawer, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../public/ico.png';
 import Typewriter from 'typewriter-effect';
 import { useState, useEffect } from 'react';
@@ -17,6 +17,11 @@ const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const userType = useSelector((state: RootState) => state.userType.userType);
 
+  const navigate = useNavigate()
+
+  const publisherUsername = JSON.parse(localStorage.getItem('publisher') || '{}');
+  const userUsername = JSON.parse(localStorage.getItem('user') || '{}');
+
   useEffect(() => {
     dispatch(updateLoggedInState(!!localStorage.getItem('user') || !!localStorage.getItem('publisher')));
   }, []);
@@ -32,6 +37,7 @@ const Navbar: React.FC = () => {
     dispatch(logout());
     setUser(null);
     setPublisher(null);
+    navigate('/')
   };
 
   const showDrawer = () => {
@@ -84,7 +90,7 @@ const Navbar: React.FC = () => {
                         <Link to="/newslist" style={{ color: 'black' }}>NewsList</Link>
                       </Menu.Item>
                       <Menu.Item key="user">
-                        <Link to="/user" style={{ color: 'black' }}>User</Link>
+                        <Link to="/user" style={{ color: 'black',textTransform:'uppercase' }}>{userUsername.username}</Link>
                       </Menu.Item>
                       <Menu.Item key="publishers">
                         <Link to="/publishers" style={{ color: 'black' }}>Publishers</Link>
@@ -94,7 +100,7 @@ const Navbar: React.FC = () => {
                   {publisher && (
                     <>
                       <Menu.Item key="publishers">
-                        <Link to="/publishers" style={{ color: 'black' }}>Publishers</Link>
+                        <Link to="/publisher-page" style={{ color: 'black',textTransform:'uppercase' }}>{publisherUsername.username}</Link>
                       </Menu.Item>
                       <Menu.Item key="post">
                         <Link to="/post" style={{ color: 'black' }}>Post</Link>
