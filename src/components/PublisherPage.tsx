@@ -1,8 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Modal, Input, Button,  notification, Image } from 'antd';
+import { Modal, Input, Button,  notification, Image, Row, Col, Card } from 'antd';
 import { updatePublisher, getPublisher, getAllPublishers } from '../services/publishersApi';
+import { getNewsByPublisher } from '../services/newsApi';
+import { Link } from 'react-router-dom';
+const { Meta } = Card;
+import { ClockCircleOutlined } from '@ant-design/icons';
+
+interface NewsType {
+  _id: string;
+  createdAt: string;
+  linkURL: string;
+  newsBody: string;
+  thumbnailImg: string;
+  title: string;
+}
+
 
 const PublisherPage = () => {
   const [userId, setUserId] = useState('');
@@ -19,6 +33,9 @@ const PublisherPage = () => {
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [visibleInfo, setVisibleInfo] = useState(false);
   const [existingUsers, setExistingUsers] = useState([]);
+  const [publisherNews, setPublisherNews] = useState<NewsType[]>([]);
+
+  const userLocale = JSON.parse(localStorage.getItem('publisher') || '{}');
 
   useEffect(() => {
     const userFromLocalStorage = JSON.parse(localStorage.getItem('publisher') || '{}');
@@ -30,7 +47,18 @@ const PublisherPage = () => {
     getAllPublishers().then((users) => {
       setExistingUsers(users);
     });
-  }, [userData]);
+    
+    
+
+  }, []);
+
+  useEffect(()=>{
+    getNewsByPublisher(userLocale.id).then((news)=>{
+      setPublisherNews(news);
+     });
+  },[])
+
+  console.log(publisherNews)
 
   const handleUpdatePassword = (values) => {
     if (values.currentPassword !== userData.password) {
@@ -54,27 +82,46 @@ const PublisherPage = () => {
   };
 
   const handleUpdateInfo = async (values) => {
-    const isUsernameExists = existingUsers.some(user => user.username === values.username);
+    try {
+      const isUsernameExists = existingUsers.some(user => user.username === values.username);
   
-    if (isUsernameExists && userData.username !== values.username) {
-      notification.warning({
-        message: 'Warning',
-        description: 'This username already exists!',
-      });
-    } else {
-      if (userData.username !== values.username) {
-        const updatedUsers = existingUsers.filter(user => user.username !== userData.username);
-        setExistingUsers(updatedUsers);
+      if (isUsernameExists && userData.username !== values.username) {
+        notification.warning({
+          message: 'Warning',
+          description: 'This username already exists!',
+        });
+      } else {
+        if (userData.username !== values.username) {
+          const updatedUsers = existingUsers.filter(user => user.username !== userData.username);
+          setExistingUsers(updatedUsers);
   
-        const userFromLocalStorage = JSON.parse(localStorage.getItem('publisher') || '{}');
-        userFromLocalStorage.username = values.username;
-        localStorage.setItem('user', JSON.stringify(userFromLocalStorage));
+          const userFromLocalStorage = JSON.parse(localStorage.getItem('publisher') || '{}');
+          userFromLocalStorage.username = values.username;
+          localStorage.setItem('publisher', JSON.stringify(userFromLocalStorage));
+        }
+  
+        await updatePublisher(userId, values);
+        setVisibleInfo(false);
+  
+        if (userData.username !== values.username) {
+          setUserData(prevUserData => ({
+            ...prevUserData,
+            username: values.username,
+            name: values.name,
+            description: values.description,
+            profileImg: values.profileImg,
+          }));
+        }
       }
-  
-      await updatePublisher(userId, values);
-      setVisibleInfo(false);
+    } catch (error) {
+      console.error(error);
+      notification.error({
+        message: 'Error',
+        description: 'Failed to update user information!',
+      });
     }
   };
+  
   
   
 
@@ -204,6 +251,21 @@ const PublisherPage = () => {
           )}
         </Formik>
       </Modal>
+      <Row gutter={[16, 16]} style={{padding:'40px 25px'}}>
+        {publisherNews.map((news) => (
+          <Col xs={24} sm={12} md={8} key={news._id}>
+            <Card hoverable cover={<img alt={news.title} src={news.thumbnailImg} />}>
+              <Meta title={news.title} />
+              <div dangerouslySetInnerHTML={{ __html: news?.newsBody || '' }} />
+              <div style={{ marginTop: '12px' }}>
+                <ClockCircleOutlined />
+                <span style={{ marginLeft: '8px' }}>{news.createdAt}</span>
+              </div>
+              <Link to={`/news/${news._id}`}>Read More</Link>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 };
