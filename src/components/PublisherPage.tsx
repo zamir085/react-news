@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Modal, Input, Button,  notification, Image, Row, Col, Card } from 'antd';
+import { Modal, Input, Button, notification, Image, Row, Col, Card } from 'antd';
 import { updatePublisher, getPublisher, getAllPublishers } from '../services/publishersApi';
 import { getNewsByPublisher } from '../services/newsApi';
 import { Link } from 'react-router-dom';
 const { Meta } = Card;
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 interface NewsType {
   _id: string;
@@ -27,7 +27,7 @@ const PublisherPage = () => {
     profileImg: '',
     email: '',
     password: '',
-    description:''
+    description: ''
   });
 
   const [visiblePassword, setVisiblePassword] = useState(false);
@@ -47,16 +47,16 @@ const PublisherPage = () => {
     getAllPublishers().then((users) => {
       setExistingUsers(users);
     });
-    
-    
+
+
 
   }, []);
 
-  useEffect(()=>{
-    getNewsByPublisher(userLocale.id).then((news)=>{
+  useEffect(() => {
+    getNewsByPublisher(userLocale.id).then((news) => {
       setPublisherNews(news);
-     });
-  },[])
+    });
+  }, [])
 
   console.log(publisherNews)
 
@@ -84,7 +84,7 @@ const PublisherPage = () => {
   const handleUpdateInfo = async (values) => {
     try {
       const isUsernameExists = existingUsers.some(user => user.username === values.username);
-  
+
       if (isUsernameExists && userData.username !== values.username) {
         notification.warning({
           message: 'Warning',
@@ -94,15 +94,15 @@ const PublisherPage = () => {
         if (userData.username !== values.username) {
           const updatedUsers = existingUsers.filter(user => user.username !== userData.username);
           setExistingUsers(updatedUsers);
-  
+
           const userFromLocalStorage = JSON.parse(localStorage.getItem('publisher') || '{}');
           userFromLocalStorage.username = values.username;
           localStorage.setItem('publisher', JSON.stringify(userFromLocalStorage));
         }
-  
+
         await updatePublisher(userId, values);
         setVisibleInfo(false);
-  
+
         if (userData.username !== values.username) {
           setUserData(prevUserData => ({
             ...prevUserData,
@@ -121,9 +121,9 @@ const PublisherPage = () => {
       });
     }
   };
-  
-  
-  
+
+
+
 
   const validationSchemaPassword = Yup.object().shape({
     currentPassword: Yup.string().required('Current password is required'),
@@ -251,17 +251,23 @@ const PublisherPage = () => {
           )}
         </Formik>
       </Modal>
-      <Row gutter={[16, 16]} style={{padding:'40px 25px'}}>
+      <Row gutter={[16, 16]} style={{ padding: '40px 25px' }}>
         {publisherNews.map((news) => (
           <Col xs={24} sm={12} md={8} key={news._id}>
-            <Card hoverable cover={<img alt={news.title} src={news.thumbnailImg} />}>
+            <Card  hoverable cover={<img alt={news.title} src={news.thumbnailImg} />}>
               <Meta title={news.title} />
               <div dangerouslySetInnerHTML={{ __html: news?.newsBody || '' }} />
               <div style={{ marginTop: '12px' }}>
                 <ClockCircleOutlined />
                 <span style={{ marginLeft: '8px' }}>{news.createdAt}</span>
               </div>
-              <Link to={`/news/${news._id}`}>Read More</Link>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Link to={`/news/${news._id}`}>Read More</Link>
+                <div style={{display:'flex',gap:'20px'}}>
+                  <EditOutlined style={{fontSize:'20px',color:'green'}} />
+                  <DeleteOutlined style={{fontSize:'20px', color:'red'}} />
+                </div>
+              </div>
             </Card>
           </Col>
         ))}
