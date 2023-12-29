@@ -148,7 +148,7 @@ const PublisherPage = () => {
 
   return (
     <div>
-      <h1>User Detail</h1>
+      <h1>Publisher Detail</h1>
       <Image width={64} src={userData.profileImg} ></Image>
       <p>Username: {userData.username}</p>
       <p>Full Name: {userData.name}</p>
