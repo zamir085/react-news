@@ -29,6 +29,7 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import EditNewsModal from "./EditNewsModal";
+import { FormikValues } from 'formik';
 
 interface NewsType {
   _id: string;
@@ -37,6 +38,17 @@ interface NewsType {
   newsBody: string;
   thumbnailImg: string;
   title: string;
+}
+
+interface publisherType {
+  username: string;
+  password: string;
+  email: string;
+  backgroundImg: string;
+  profileImg: string;
+  name: string;
+  description: string;
+  joinedDate: string;
 }
 
 const PublisherPage = () => {
@@ -53,7 +65,7 @@ const PublisherPage = () => {
 
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [visibleInfo, setVisibleInfo] = useState(false);
-  const [existingUsers, setExistingUsers] = useState([]);
+  const [existingUsers, setExistingUsers] = useState<publisherType[]>([]);
   const [publisherNews, setPublisherNews] = useState<NewsType[]>([]);
   const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
   const [selectedNews, setSelectedNews] = useState<NewsType | null>(null);
@@ -79,11 +91,11 @@ const PublisherPage = () => {
     getNewsByPublisher(userLocale.id).then((news) => {
       setPublisherNews(news);
     });
-  }, []);
+  }, [publisherNews]);
 
   console.log(publisherNews);
 
-  const handleUpdatePassword = (values) => {
+  const handleUpdatePassword = (values:FormikValues) => {
     if (values.currentPassword !== userData.password) {
       notification.error({
         message: "Error",
@@ -100,11 +112,11 @@ const PublisherPage = () => {
       return;
     }
 
-    updatePublisher(userId, { password: values.newPassword });
+    updatePublisher(userId, { password: values.newPassword } as publisherType);
     setVisiblePassword(false);
   };
 
-  const handleUpdateInfo = async (values) => {
+  const handleUpdateInfo = async (values:FormikValues) => {
     try {
       const isUsernameExists = existingUsers.some(
         (user) => user.username === values.username
@@ -318,7 +330,8 @@ const PublisherPage = () => {
           <Col xs={24} sm={12} md={8} key={news._id}>
             <Card
               hoverable
-              cover={<img alt={news.title} src={news.thumbnailImg} />}
+              style={{objectFit:'contain'}}
+              cover={<img height={150} alt={news.title} src={news.thumbnailImg} />}
             >
               <Meta title={news.title} />
               <div dangerouslySetInnerHTML={{ __html: news?.newsBody || "" }} />

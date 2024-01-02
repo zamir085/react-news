@@ -19,7 +19,7 @@ interface PostNews {
 const Post = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const publisherId = JSON.parse(localStorage.getItem('publisher') || '{}');
 
   const initialValues = {
@@ -38,14 +38,14 @@ const Post = () => {
   });
 
   const handleSubmit = async (
-    values: PostNews ,
+    values: PostNews,
     { setSubmitting, resetForm }: FormikHelpers<PostNews>
   ) => {
     try {
       await postNews(values);
       setSuccess(true);
       resetForm();
-      navigate('/')
+      navigate('/');
     } catch (error) {
       setError('Error posting news');
     } finally {
@@ -53,11 +53,11 @@ const Post = () => {
     }
   };
 
-  const editorRef =useRef<TinyMCEEditor | null>(null);
+  const editorRef = useRef<TinyMCEEditor | null>(null);
 
   return (
-    <div className="App" style={{margin:"30px"}}>
-        <h2 style={{textAlign:'center',margin:'20px 0'}}>Add new News</h2>
+    <div className="App" style={{ margin: '30px' }}>
+      <h2 style={{ textAlign: 'center', margin: '20px 0' }}>Add new News</h2>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
         {({ isSubmitting, setFieldValue }) => (
           <Form style={{ maxWidth: '600px', margin: 'auto' }}>
@@ -98,9 +98,8 @@ const Post = () => {
               />
             </div>
             <div style={{ marginBottom: '1rem' }}>
-              
               <Editor
-                onInit={(editor) => (editorRef.current = editor)}
+                onInit={(evt, editor) => (editorRef.current = editor)}
                 initialValue=""
                 init={{
                   height: 500,
@@ -119,7 +118,7 @@ const Post = () => {
                 }}
                 onEditorChange={(content, editor) => {
                   setFieldValue('newsBody', content);
-                  console.log(editor)
+                  console.log(editor);
                 }}
               />
               <ErrorMessage name="newsBody" component="div" />

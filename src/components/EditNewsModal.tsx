@@ -35,6 +35,7 @@ const EditNewsModal: React.FC<EditNewsModalProps> = ({ initialValues, onSubmit, 
         onSubmit(values);
         setSubmitting(false);
       }}
+      enableReinitialize={true}
     >
       {({ errors, touched, handleSubmit, isSubmitting, setFieldValue }) => (
         <Form onFinish={handleSubmit}>

@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import EastIcon from "@mui/icons-material/East";
 import EventIcon from "@mui/icons-material/Event";
 
-export const Article = ({ data }: any & IArticle) => {
+export const Article: React.FC<{ data: IArticle }> = ({ data }) => {
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card sx={{ maxWidth: 500, height: 365, margin: "0 auto" }}>

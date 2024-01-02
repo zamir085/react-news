@@ -101,11 +101,11 @@ export const Home: React.FC = () => {
         <Grid container spacing={3} my={1}>
           {query === ''
             ? news?.map((item) => (
-                <Article key={item._id} data={item} index={item._id} />
+                <Article key={item._id} data={item}/>
               ))
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             : newData.map((item) => (
-                <Article key={item._id} data={item} index={item._id} />
+                <Article key={item._id} data={item}/>
               ))}
         </Grid>
       </Container>
