@@ -16,6 +16,7 @@ interface PublisherValues {
   name: string;
   description: string;
   joinedDate: string;
+  _id:string;
 }
 
 const PublisherRegister: React.FC<PublisherRegisterProps> = () => {
@@ -30,6 +31,7 @@ const PublisherRegister: React.FC<PublisherRegisterProps> = () => {
     name: "",
     description: "",
     joinedDate: new Date().toISOString().split("T")[0],
+    _id:''
   };
 
   const validationSchema = Yup.object({

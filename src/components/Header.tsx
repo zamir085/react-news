@@ -24,6 +24,7 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     dispatch(updateLoggedInState(!!localStorage.getItem('user') || !!localStorage.getItem('publisher')));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

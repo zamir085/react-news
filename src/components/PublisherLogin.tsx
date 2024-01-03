@@ -11,15 +11,17 @@ import { FormikHelpers } from 'formik';
 interface FormValues {
   username: string;
   password: string;
-}
-interface User{
-  id:string
-  username: string,
-  fullName: string,
-  profileImg: string,
-  email: string,
-  password: string,
-  isAdmin: boolean,
+} 
+
+interface PublisherType{
+  username: string;
+  password: string;
+  email: string;
+  backgroundImg: string;
+  profileImg: string;
+  name: string;
+  description: string;
+  joinedDate: string;
 }
 
 const PublisherLogin = () => {
@@ -40,10 +42,11 @@ const PublisherLogin = () => {
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) =>{
     try {
       const allUsers = await getAllPublishers();
-      const foundUser = allUsers.find((user:User) => user.username === values.username && user.password === values.password);
+      const foundUser = allUsers.find((user: PublisherType) => user.username === values.username && user.password === values.password);
+
   
       if (foundUser) {
-        dispatch(setUserType(foundUser)); 
+        dispatch(setUserType(JSON.stringify(foundUser))); 
         localStorage.setItem('publisher', JSON.stringify({ id: foundUser._id, username: foundUser.username }));
         navigate('/');
       } else {

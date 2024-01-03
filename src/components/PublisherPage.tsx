@@ -91,6 +91,7 @@ const PublisherPage = () => {
     getNewsByPublisher(userLocale.id).then((news) => {
       setPublisherNews(news);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publisherNews]);
 
   console.log(publisherNews);

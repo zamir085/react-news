@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Modal, Input, Button, notification, Image } from 'antd';
+import { Modal, Input, Button, notification, Image, Row, Col } from 'antd';
 import { updateUser, getUser, getAllUsers } from '../services/usersApi';
 import { FormikValues } from 'formik';
 
@@ -17,7 +17,6 @@ interface userType {
 const UserDetail = () => {
   const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState({
-    _id: '',
     username: '',
     fullName: '',
     profileImg: '',
@@ -63,7 +62,7 @@ const UserDetail = () => {
     setVisiblePassword(false);
   };
 
-  const handleUpdateInfo = async (values: FormikValues) => {
+  const handleUpdateInfo = async (values: userType) => {
     const isUsernameExists = existingUsers.some(user => user.username === values.username);
 
     if (isUsernameExists && userData.username !== values.username) {
@@ -84,7 +83,7 @@ const UserDetail = () => {
       await updateUser(userId, values);
       setVisibleInfo(false);
     }
-  };
+  }; 
 
 
 
@@ -109,14 +108,20 @@ const UserDetail = () => {
   };
 
   return (
-    <div>
-      <h1>User Detail</h1>
-      <Image width={64} src={userData.profileImg} ></Image>
-      <p>Username: {userData.username}</p>
-      <p>Full Name: {userData.fullName}</p>
-      <p>Email: {userData.email}</p>
-
-      <Button onClick={handleEditPassword}>Edit Password</Button>
+    <Row gutter={24} justify="center" align="middle" style={{margin:'100px'}}>
+       <Col xs={24} sm={12}>
+        <h1>User Detail</h1>
+        <p><strong>Username:</strong> {userData.username}</p>
+        <p><strong>Full Name:</strong> {userData.fullName}</p>
+        <p><strong>Email:</strong> {userData.email}</p>
+        <Button onClick={handleEditPassword}>Edit Password</Button>
+        <Button onClick={handleEditInfo}>Edit Info</Button>
+      </Col>
+      <Col xs={24} sm={12}>
+        <div style={{ textAlign: 'center' }}>
+          <Image width={200} src={userData.profileImg} />
+        </div>
+      </Col>
       <Modal
         title="Edit Password"
         visible={visiblePassword}
@@ -163,7 +168,6 @@ const UserDetail = () => {
         </Formik>
       </Modal>
 
-      <Button onClick={handleEditInfo}>Edit Info</Button>
       <Modal
         title="Edit Info"
         visible={visibleInfo}
@@ -205,7 +209,7 @@ const UserDetail = () => {
           )}
         </Formik>
       </Modal>
-    </div>
+    </Row>
   );
 };
 

@@ -8,13 +8,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { getNews } from '../services/newsApi';
 
 type ArticleData = {
-  _id: string;
-  title: string;
   linkURL: string;
-  thumbnailImg: string;
   newsBody: string;
-  author: string;
-  __v: number;
+  thumbnailImg: string;
+  title: string;
 };
 
 type NewsDetailParams = {

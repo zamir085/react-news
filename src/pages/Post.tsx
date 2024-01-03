@@ -14,6 +14,8 @@ interface PostNews {
   thumbnailImg: string;
   newsBody: string;
   author: string;
+  _id:string,
+  createdAt:string
 }
 
 const Post = () => {
@@ -23,6 +25,8 @@ const Post = () => {
   const publisherId = JSON.parse(localStorage.getItem('publisher') || '{}');
 
   const initialValues = {
+    _id:'',
+    createdAt:'',
     title: '',
     linkURL: '',
     thumbnailImg: '',
@@ -99,7 +103,7 @@ const Post = () => {
             </div>
             <div style={{ marginBottom: '1rem' }}>
               <Editor
-                onInit={(evt, editor) => (editorRef.current = editor)}
+                onInit={(_evt, editor) => (editorRef.current = editor)}
                 initialValue=""
                 init={{
                   height: 500,

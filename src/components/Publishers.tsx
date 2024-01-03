@@ -8,7 +8,7 @@ interface Publisher {
   name: string;
   username: string;
   profileImg: string;
-  joinedDate: Date;
+  joinedDate: string;
   description: string;
 }
 
@@ -16,7 +16,7 @@ const Publishers: React.FC = () => {
   const [publishers, setPublishers] = useState<Publisher[]>([]);
 
   useEffect(() => {
-    const fetchPublishers = async () => {
+    const fetchPublishers = async () => { 
       try {
         const data: Publisher[] = await getAllPublishers();
         setPublishers(data);
